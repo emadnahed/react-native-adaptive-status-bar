@@ -109,11 +109,16 @@ export function useScrollStatusBar({
   atBottom,
 }: ScrollStatusBarOptions): ScrollStatusBarResult {
   const scrollOffsetRef = useRef(0);
+  // Tracks which side of the threshold we are on so onScroll only calls
+  // setCurrent when the zone actually changes — not on every scroll frame.
+  const atBottomRef = useRef(false);
   const [current, setCurrent] = useState<StatusBarPreset>(atTop);
 
   useFocusEffect(
     useCallback(() => {
-      setCurrent(scrollOffsetRef.current > threshold ? atBottom : atTop);
+      const isAtBottom = scrollOffsetRef.current > threshold;
+      atBottomRef.current = isAtBottom;
+      setCurrent(isAtBottom ? atBottom : atTop);
       // atTop/atBottom intentionally omitted — callers define them as constants.
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [threshold])
@@ -122,13 +127,15 @@ export function useScrollStatusBar({
   const onScroll = useCallback(
     (offsetY: number) => {
       scrollOffsetRef.current = offsetY;
-      setCurrent(prev => {
-        const next = offsetY > threshold ? atBottom : atTop;
-        // Bail out if style hasn't changed — avoids unnecessary re-renders.
-        return prev.barStyle === next.barStyle ? prev : next;
-      });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      const isAtBottom = offsetY > threshold;
+      // Only update state when crossing the threshold — O(1) per zone change
+      // instead of O(n) per scroll frame. Avoids 60 setCurrent calls/sec.
+      if (isAtBottom !== atBottomRef.current) {
+        atBottomRef.current = isAtBottom;
+        setCurrent(isAtBottom ? atBottom : atTop);
+      }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [threshold]
   );
 
