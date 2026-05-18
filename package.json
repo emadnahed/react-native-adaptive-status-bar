@@ -1,0 +1,49 @@
+{
+  "name": "react-native-adaptive-status-bar",
+  "version": "0.1.0",
+  "description": "React Native hooks for adaptive status bar — static and scroll-based dynamic switching between light/dark content styles.",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "react-native",
+    "status-bar",
+    "adaptive",
+    "hook",
+    "expo",
+    "react-navigation",
+    "scroll",
+    "dynamic"
+  ],
+  "author": "Emaad",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-native": ">=0.73.0",
+    "@react-navigation/native": ">=6.0.0"
+  },
+  "devDependencies": {
+    "@react-navigation/native": "^6.1.0",
+    "@types/react": "^18.0.0",
+    "@types/react-native": "^0.73.0",
+    "react": "^18.0.0",
+    "react-native": "^0.73.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
+  }
+}
