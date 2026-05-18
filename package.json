@@ -1,6 +1,6 @@
 {
   "name": "react-native-adaptive-status-bar",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "React Native hooks for adaptive status bar — static and scroll-based dynamic switching between light/dark content styles.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
